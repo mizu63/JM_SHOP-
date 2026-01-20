@@ -10,7 +10,7 @@ import Product from './Ul/Product';
 import Cart from './Ul/Cart';
 import CardContext from './context/CardContext';
 import Login from "./Ui/Login.jsx"
-
+import { Auth0Provider } from "@auth0/auth0-react";
 
 
 const router = createBrowserRouter([
@@ -34,8 +34,14 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
+   <Auth0Provider
+      domain="dev-72y53ju0ic8s4rxt.us.auth0.com"
+      clientId="MLGgNIvOWgdwPgonBQ3djJYOzCOgKhed"
+      authorizationParams={{ redirect_uri: window.location.origin }}
+    >
   <CardContext>
  <RouterProvider router={router} />,
   
-  </CardContext>,
+  </CardContext>
+  </Auth0Provider>
 )

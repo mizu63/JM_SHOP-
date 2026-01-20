@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link ,useLocation} from 'react-router'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navber = () => {
+    const { loginWithRedirect, logout, isAuthenticated,user } = useAuth0();
 
   let {pathname}=useLocation()
   return (
@@ -96,13 +98,34 @@ const Navber = () => {
            Cart
           </Link>
         </li>
-       
+           
       </ul>
     </div>
+   
     <div className="flex max-lg:ml-auto">
-      <Link to="/login">
-     <button  className='text-xl font-bold px-4  py-1.5 bg-blue-600 text-white rounded-bl-full cursor-pointer'>Login</button>
-     </Link>
+    {/* <>{isAuthenticated && <p>{user.email}</p>}</> */}
+        
+     {isAuthenticated && (
+    <div className="mr-4 text-sm">
+      <p>{user.email}</p>
+      {!user.email_verified && (
+        <span className="text-red-600">Please verify your email</span>
+      )}
+    </div>
+  )}
+
+
+    {isAuthenticated ?(<>
+       <button  onClick={() =>logout({ logoutParams: { returnTo: window.location.origin } }) } className='text-xl font-bold px-4  py-1.5 bg-blue-600 text-white rounded-bl-full cursor-pointer'>logout</button>
+    </>):(<>
+       <button  onClick={() => loginWithRedirect()} className='text-xl font-bold px-4  py-1.5 bg-blue-600 text-white rounded-bl-full cursor-pointer'>Login</button>
+    </>)}
+
+    
+    
+    
+  
+
     </div>
   </div>
 </header>
